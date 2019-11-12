@@ -1,0 +1,26 @@
+---
+
+- name: Set hostname and timezone
+  hosts: all
+  gather_facts: True
+  become: true
+  vars:
+    hostname: h
+    tz: America/Chicago
+
+  tasks:
+    - name: Set timezone to "{{ tz }}"
+      timezone:
+        name: "{{ tz }}"
+    - name: Show the new timezone
+      shell: date +%Z
+    - name: Show the current time
+      shell: date
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Dump host facts
+      shell: uptime
+      setup:
